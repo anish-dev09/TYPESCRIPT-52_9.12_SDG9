@@ -22,17 +22,20 @@ interface Milestone {
   amountReleased?: number;
 }
 
-const ProgressBar = ({ progress }: { progress: number }) => (
-  <div className="flex items-center gap-2">
-    <div className="flex-1 bg-gray-200 rounded-full h-2 w-24">
-      <div
-        className="bg-blue-600 h-2 rounded-full transition-all"
-        style={{ width: `${Math.min(progress, 100)}%` } as React.CSSProperties}
-      />
+const ProgressBar = ({ progress }: { progress: number }) => {
+  const progressPercentage = Math.min(progress, 100);
+  return (
+    <div className="flex items-center gap-2">
+      <div className="flex-1 bg-gray-200 rounded-full h-2 w-24 overflow-hidden">
+        <div
+          className="bg-blue-600 h-2 rounded-full transition-all"
+          {...({ style: { width: `${progressPercentage}%` } } as any)}
+        />
+      </div>
+      <span className="text-sm text-gray-600">{progressPercentage.toFixed(0)}%</span>
     </div>
-    <span className="text-sm text-gray-600">{progress.toFixed(0)}%</span>
-  </div>
-);
+  );
+};
 
 export default function TransparencyPage() {
   const [projects, setProjects] = useState<Project[]>([]);
