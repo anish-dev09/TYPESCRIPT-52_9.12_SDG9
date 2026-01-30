@@ -191,6 +191,7 @@ export default function TransparencyPage() {
               const project = projects.find((p) => p.id === e.target.value);
               setSelectedProject(project || null);
             }}
+            aria-label="Select project to view details"
             className="flex-1 min-w-[300px] px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="">Select a project</option>
@@ -204,6 +205,7 @@ export default function TransparencyPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
+            aria-label="Filter projects by status"
             className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="all">All Status</option>
@@ -267,8 +269,10 @@ export default function TransparencyPage() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-2">
                           <div className="flex-1 bg-gray-200 rounded-full h-2 w-24">
+                            {/* Dynamic width requires inline style */}
                             <div
-                              className="bg-blue-600 h-2 rounded-full"
+                              className="bg-blue-600 h-2 rounded-full transition-all"
+                              // @ts-ignore - Dynamic progress width
                               style={{ width: `${Math.min(progress, 100)}%` }}
                             />
                           </div>

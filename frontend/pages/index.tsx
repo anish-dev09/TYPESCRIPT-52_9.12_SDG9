@@ -135,13 +135,3 @@ export default function Home() {
     </>
   );
 }
-              <p className="text-gray-400 text-xs mt-2">
-                Next: Phase 2 - Smart Contract Development
-              </p>
-            </div>
-          </div>
-        </div>
-      </main>
-    </>
-  );
-}
