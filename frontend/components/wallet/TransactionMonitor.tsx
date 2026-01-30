@@ -42,21 +42,6 @@ export default function TransactionMonitor({ txHash, onComplete }: TransactionMo
   useEffect(() => {
     monitorTransaction();
   }, [monitorTransaction]);
-    } catch (error) {
-      console.error('Transaction monitoring error:', error);
-      setStatus('failed');
-      onComplete?.(false);
-    }
-  };
-
-  const loadReceipt = async () => {
-    try {
-      const receiptData = await web3Service.getTransactionReceipt(txHash);
-      setReceipt(receiptData);
-    } catch (error) {
-      console.error('Error loading receipt:', error);
-    }
-  };
 
   const getStatusColor = () => {
     switch (status) {
@@ -121,6 +106,7 @@ export default function TransactionMonitor({ txHash, onComplete }: TransactionMo
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 hover:text-blue-700 text-sm"
+            aria-label="View transaction on PolygonScan"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />

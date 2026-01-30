@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuthStore } from '../../store/authStore';
 import web3Service from '../../services/web3Service';
 import { formatCurrency } from '../../services/tokenService';
@@ -17,13 +17,7 @@ export default function TransactionHistory() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'purchase' | 'transfer'>('all');
 
-  useEffect(() => {
-    if (walletAddress) {
-      loadTransactions();
-    }
-  }, [walletAddress]);
-
-  const loadTransactions = async () => {
+  const loadTransactions = useCallback(async () => {
     if (!walletAddress) return;
 
     try {
@@ -42,7 +36,13 @@ export default function TransactionHistory() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [walletAddress]);
+
+  useEffect(() => {
+    if (walletAddress) {
+      loadTransactions();
+    }
+  }, [walletAddress, loadTransactions]);
 
   const filteredTransactions = transactions.filter((tx) => {
     if (filter === 'all') return true;
@@ -161,6 +161,7 @@ export default function TransactionHistory() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 hover:text-blue-700"
+                  aria-label="View transaction on PolygonScan"
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />

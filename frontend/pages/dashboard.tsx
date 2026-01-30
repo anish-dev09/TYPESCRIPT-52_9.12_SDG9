@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/authStore';
@@ -19,11 +19,7 @@ export default function Dashboard() {
   const [monthlyInterest, setMonthlyInterest] = useState(0);
   const [performanceHistory, setPerformanceHistory] = useState<any[]>([]);
 
-  useEffect(() => {
-    loadDashboardData();
-  }, []);
-
-  const loadDashboardData = async () => {
+  const loadDashboardData = useCallback(async () => {
     try {
       setLoading(true);
       // Load user's investments from API
@@ -46,9 +42,13 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [loadInvestments, generatePerformanceHistory]);
 
-  const generatePerformanceHistory = (investmentData: any[]) => {
+  useEffect(() => {
+    loadDashboardData();
+  }, [loadDashboardData]);
+
+  const generatePerformanceHistory = useCallback((investmentData: any[]) => {
     // Generate 12 months of performance data
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const currentMonth = new Date().getMonth();
@@ -71,7 +71,7 @@ export default function Dashboard() {
     }
 
     setPerformanceHistory(history);
-  };
+  }, [totalInvested]);
 
   // Transform investments to portfolio format for InvestorAnalytics
   const portfolioData = investments.map((inv: any) => ({

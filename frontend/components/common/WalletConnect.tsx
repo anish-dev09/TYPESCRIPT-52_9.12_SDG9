@@ -127,7 +127,7 @@ export default function WalletConnect() {
                 </div>
 
                 <p className="text-xs text-gray-500">
-                  By signing in, you'll sign a message with your wallet to verify ownership.
+                  By signing in, you&apos;ll sign a message with your wallet to verify ownership.
                   New users will need to provide email and name.
                 </p>
 

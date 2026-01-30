@@ -32,7 +32,7 @@ export default function WalletConnect() {
     web3Service.disconnectWallet();
     setLocalWalletAddress(null);
     setBalance('0');
-    setNetworkInfo({ chainId: 0, name: 'Unknown' });
+    setNetworkInfo({ chainId: 0, name: 'Unknown', isTestnet: false });
     setWalletAddress(null);
     toast('Wallet disconnected', { icon: 'ℹ️' });
   }, [setWalletAddress]);
