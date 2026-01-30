@@ -256,7 +256,7 @@ export const getStatusColor = (status: string): string => {
   }
 };
 
-export default {
+const tokenService = {
   formatTokenAmount,
   parseTokenAmount,
   calculateInterest,
@@ -274,3 +274,5 @@ export default {
   getRiskColor,
   getStatusColor,
 };
+
+export default tokenService;

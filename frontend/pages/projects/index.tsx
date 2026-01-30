@@ -111,6 +111,7 @@ export default function ProjectsPage() {
                   onChange={(e) =>
                     setFilters({ ...filters, risk: e.target.value })
                   }
+                  aria-label="Filter by risk level"
                 >
                   <option value="all">All Risk Levels</option>
                   <option value="low">Low Risk</option>
@@ -130,6 +131,7 @@ export default function ProjectsPage() {
                   onChange={(e) =>
                     setFilters({ ...filters, status: e.target.value })
                   }
+                  aria-label="Filter by status"
                 >
                   <option value="all">All Statuses</option>
                   <option value="active">Active</option>

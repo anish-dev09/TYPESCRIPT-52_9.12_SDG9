@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../../components/common/Layout';
 import InvestmentFlow from '../../components/investment/InvestmentFlow';
@@ -15,17 +15,10 @@ export default function ProjectDetailPage() {
   const [showInvestmentFlow, setShowInvestmentFlow] = useState(false);
   const [milestones, setMilestones] = useState<any[]>([]);
 
-  useEffect(() => {
-    if (id) {
-      loadProjectDetails();
-      loadMilestones();
-    }
-  }, [id]);
-
-  const loadProjectDetails = async () => {
+  const loadProjectDetails = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await apiService.getProject(id as string);
+      const response = await apiService.getProjectById(id as string);
       setProject(response.data);
     } catch (error: any) {
       console.error('Failed to load project:', error);
@@ -34,16 +27,23 @@ export default function ProjectDetailPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, router]);
 
-  const loadMilestones = async () => {
+  const loadMilestones = useCallback(async () => {
     try {
       const response = await apiService.getMilestones(id as string);
       setMilestones(response.data || []);
     } catch (error) {
       console.error('Failed to load milestones:', error);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    if (id) {
+      loadProjectDetails();
+      loadMilestones();
+    }
+  }, [id, loadProjectDetails, loadMilestones]);
 
   if (loading) {
     return (
@@ -189,7 +189,7 @@ export default function ProjectDetailPage() {
                   <div className="w-full bg-gray-200 rounded-full h-3">
                     <div
                       className="bg-blue-600 h-3 rounded-full transition-all"
-                      style={{ width: `${Math.min(progressPercentage, 100)}%` }}
+                      {...({ style: { width: `${Math.min(progressPercentage, 100)}%` } } as any)}
                     />
                   </div>
                   <div className="flex justify-between text-sm text-gray-600 mt-2">

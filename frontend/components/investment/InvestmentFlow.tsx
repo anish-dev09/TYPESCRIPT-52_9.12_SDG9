@@ -56,9 +56,10 @@ export default function InvestmentFlow({ project, onClose }: InvestmentFlowProps
       
       // Call backend API to record investment
       const response = await apiService.createInvestment({
-        projectId: project.id,
+        projectId: parseInt(project.id, 10),
         amount: parseFloat(amount),
-        tokens,
+        tokensMinted: tokens,
+        transactionHash: '',
       });
 
       // Complete investment
@@ -67,6 +68,7 @@ export default function InvestmentFlow({ project, onClose }: InvestmentFlowProps
         projectId: project.id,
         projectName: project.name,
         tokenAmount: tokens,
+        tokensHeld: tokens,
         investmentAmount: parseFloat(amount),
         purchaseDate: new Date().toISOString(),
         interestEarned: 0,
@@ -95,6 +97,7 @@ export default function InvestmentFlow({ project, onClose }: InvestmentFlowProps
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600"
+            aria-label="Close investment modal"
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
