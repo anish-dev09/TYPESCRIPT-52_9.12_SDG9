@@ -4,6 +4,7 @@ import { useAuthStore } from '../../store/authStore';
 import { formatCurrency, validateInvestmentAmount, calculateTokensForInvestment } from '../../services/tokenService';
 import web3Service from '../../services/web3Service';
 import apiService from '../../services/apiService';
+import TransactionMonitor from '../wallet/TransactionMonitor';
 import toast from 'react-hot-toast';
 
 interface InvestmentFlowProps {
@@ -18,16 +19,20 @@ export default function InvestmentFlow({ project, onClose }: InvestmentFlowProps
   const [step, setStep] = useState(1);
   const [amount, setAmount] = useState('');
   const [loading, setLoading] = useState(false);
+  const [txHash, setTxHash] = useState<string>('');
+  const [gasEstimate, setGasEstimate] = useState<{
+    gasLimit: bigint;
+    gasPrice: bigint;
+    estimatedCost: string;
+  } | null>(null);
 
   const handleAmountChange = (value: string) => {
     setAmount(value);
-    const numAmount = parseFloat(value) || 0;
-    setInvestmentAmount(numAmount);
   };
 
-  const tokens = amount ? calculateTokensForInvestment(parseFloat(amount), project.tokenPrice) : 0;
+  const tokens = calculateTokensForInvestment(parseFloat(amount) || 0, project.tokenPrice);
 
-  const handleNextStep = () => {
+  const handleNextStep = async () => {
     if (step === 1) {
       const numAmount = parseFloat(amount) || 0;
       const validation = validateInvestmentAmount(numAmount, 100);
@@ -39,6 +44,15 @@ export default function InvestmentFlow({ project, onClose }: InvestmentFlowProps
       
       selectProject(project);
       setStep(2);
+      
+      // Estimate gas for the transaction
+      try {
+        const estimate = await web3Service.estimateGasForPurchase(project.id, amount);
+        setGasEstimate(estimate);
+      } catch (error) {
+        console.error('Gas estimation failed:', error);
+        // Continue without gas estimate
+      }
     } else if (step === 2) {
       setStep(3);
     }
@@ -50,16 +64,31 @@ export default function InvestmentFlow({ project, onClose }: InvestmentFlowProps
       return;
     }
 
+    // Check wallet connection
+    const walletConnected = await web3Service.getCurrentAccount();
+    if (!walletConnected) {
+      toast.error('Please connect your wallet first');
+      return;
+    }
+
     try {
       setLoading(true);
       startTransaction();
+      
+      // PHASE 8: Blockchain token purchase
+      const { txHash: transactionHash, tokensMinted } = await web3Service.purchaseTokens(
+        project.id,
+        amount
+      );
+
+      setTxHash(transactionHash);
       
       // Call backend API to record investment
       const response = await apiService.createInvestment({
         projectId: parseInt(project.id, 10),
         amount: parseFloat(amount),
-        tokensMinted: tokens,
-        transactionHash: '',
+        tokensMinted,
+        transactionHash,
       });
 
       // Complete investment
@@ -67,8 +96,8 @@ export default function InvestmentFlow({ project, onClose }: InvestmentFlowProps
         id: response.data.id,
         projectId: project.id,
         projectName: project.name,
-        tokenAmount: tokens,
-        tokensHeld: tokens,
+        tokenAmount: tokensMinted,
+        tokensHeld: tokensMinted,
         investmentAmount: parseFloat(amount),
         purchaseDate: new Date().toISOString(),
         interestEarned: 0,
@@ -213,6 +242,14 @@ export default function InvestmentFlow({ project, onClose }: InvestmentFlowProps
                   <span className="text-gray-600">Duration</span>
                   <span className="font-semibold text-gray-900">{project.duration} months</span>
                 </div>
+                {gasEstimate && (
+                  <div className="pt-3 border-t border-gray-200">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Estimated Gas Fee</span>
+                      <span className="font-semibold text-gray-900">{gasEstimate.estimatedCost} MATIC</span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="flex gap-4">
@@ -275,20 +312,25 @@ export default function InvestmentFlow({ project, onClose }: InvestmentFlowProps
 
           {/* Step 4: Success */}
           {step === 4 && (
-            <div className="space-y-6 text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                <svg className="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div>
+            <div className="space-y-6">
+              {/* Success Header */}
+              <div className="text-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Investment Successful!</h3>
                 <p className="text-gray-600">
                   You have successfully invested {formatCurrency(parseFloat(amount))} in {project.name}
                 </p>
               </div>
 
-              <div className="bg-green-50 rounded-lg p-4 space-y-2 text-left">
+              {/* Transaction Monitor */}
+              {txHash && <TransactionMonitor txHash={txHash} />}
+
+              {/* Investment Summary */}
+              <div className="bg-green-50 rounded-lg p-4 space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Tokens Received</span>
                   <span className="font-semibold text-gray-900">{tokens.toFixed(2)}</span>

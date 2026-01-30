@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import WalletConnect from './WalletConnect';
+import WalletConnect from '../wallet/WalletConnect';
 import { useAuthStore } from '@/store/authStore';
 
 interface LayoutProps {

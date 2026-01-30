@@ -7,6 +7,7 @@ import ProtectedRoute from '@/components/common/ProtectedRoute';
 import PortfolioWidget from '@/components/dashboard/PortfolioWidget';
 import InvestmentTimeline from '@/components/dashboard/InvestmentTimeline';
 import PortfolioDiversification from '@/components/dashboard/PortfolioDiversification';
+import TransactionHistory from '@/components/wallet/TransactionHistory';
 import apiService from '@/services/apiService';
 import toast from 'react-hot-toast';
 
@@ -77,6 +78,14 @@ export default function Dashboard() {
             {/* Portfolio Diversification */}
             {investments.length > 0 && (
               <PortfolioDiversification investments={investments} />
+            )}
+
+            {/* Transaction History - Only show if wallet is connected */}
+            {user?.walletAddress && (
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-4">Blockchain Transaction History</h2>
+                <TransactionHistory />
+              </div>
             )}
 
             {/* Quick Actions */}
