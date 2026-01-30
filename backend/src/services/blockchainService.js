@@ -1,53 +1,78 @@
-const Web3 = require('web3');
+const { Web3 } = require('web3');
 const { ethers } = require('ethers');
-
-// Contract ABIs (simplified - will need full ABIs after deployment)
-const BOND_TOKEN_ABI = require('../contracts/InfrastructureBond.json');
-const BOND_ISSUANCE_ABI = require('../contracts/BondIssuance.json');
-const MILESTONE_MANAGER_ABI = require('../contracts/MilestoneManager.json');
-const INTEREST_CALCULATOR_ABI = require('../contracts/InterestCalculator.json');
 
 class BlockchainService {
   constructor() {
-    this.provider = new ethers.JsonRpcProvider(process.env.BLOCKCHAIN_RPC_URL);
-    this.web3 = new Web3(process.env.BLOCKCHAIN_RPC_URL);
-    
-    // Contract addresses from environment
-    this.bondTokenAddress = process.env.BOND_TOKEN_ADDRESS;
-    this.bondIssuanceAddress = process.env.BOND_ISSUANCE_ADDRESS;
-    this.milestoneManagerAddress = process.env.MILESTONE_MANAGER_ADDRESS;
-    this.interestCalculatorAddress = process.env.INTEREST_CALCULATOR_ADDRESS;
-    
-    // Initialize contracts (read-only)
-    this.bondToken = new ethers.Contract(
-      this.bondTokenAddress,
-      BOND_TOKEN_ABI,
-      this.provider
-    );
-    
-    this.bondIssuance = new ethers.Contract(
-      this.bondIssuanceAddress,
-      BOND_ISSUANCE_ABI,
-      this.provider
-    );
-    
-    this.milestoneManager = new ethers.Contract(
-      this.milestoneManagerAddress,
-      MILESTONE_MANAGER_ABI,
-      this.provider
-    );
-    
-    this.interestCalculator = new ethers.Contract(
-      this.interestCalculatorAddress,
-      INTEREST_CALCULATOR_ABI,
-      this.provider
-    );
+    try {
+      // Contract addresses from environment
+      this.bondTokenAddress = process.env.BOND_TOKEN_ADDRESS;
+      this.bondIssuanceAddress = process.env.BOND_ISSUANCE_ADDRESS;
+      this.milestoneManagerAddress = process.env.MILESTONE_MANAGER_ADDRESS;
+      this.interestCalculatorAddress = process.env.INTEREST_CALCULATOR_ADDRESS;
+      
+      // Check if contracts are deployed (not placeholder addresses)
+      const isDeployed = this.bondTokenAddress && 
+                        this.bondTokenAddress !== '0x0000000000000000000000000000000000000000';
+      
+      if (isDeployed) {
+        // Only create provider and web3 if contracts are deployed
+        this.provider = new ethers.JsonRpcProvider(process.env.BLOCKCHAIN_RPC_URL);
+        this.web3 = new Web3(process.env.BLOCKCHAIN_RPC_URL);
+        // Contract ABIs - load only if contracts are deployed
+        const BOND_TOKEN_ABI = require('../contracts/InfrastructureBond.json');
+        const BOND_ISSUANCE_ABI = require('../contracts/BondIssuance.json');
+        const MILESTONE_MANAGER_ABI = require('../contracts/MilestoneManager.json');
+        const INTEREST_CALCULATOR_ABI = require('../contracts/InterestCalculator.json');
+        
+        // Initialize contracts (read-only)
+        this.bondToken = new ethers.Contract(
+          this.bondTokenAddress,
+          BOND_TOKEN_ABI.abi,
+          this.provider
+        );
+        
+        this.bondIssuance = new ethers.Contract(
+          this.bondIssuanceAddress,
+          BOND_ISSUANCE_ABI.abi,
+          this.provider
+        );
+        
+        this.milestoneManager = new ethers.Contract(
+          this.milestoneManagerAddress,
+          MILESTONE_MANAGER_ABI.abi,
+          this.provider
+        );
+        
+        this.interestCalculator = new ethers.Contract(
+          this.interestCalculatorAddress,
+          INTEREST_CALCULATOR_ABI.abi,
+          this.provider
+        );
+        
+        console.log('✅ Blockchain contracts initialized');
+      } else {
+        console.log('⚠️  Smart contracts not deployed yet. Deploy contracts and update .env with addresses.');
+        this.bondToken = null;
+        this.bondIssuance = null;
+        this.milestoneManager = null;
+        this.interestCalculator = null;
+      }
+    } catch (error) {
+      console.error('⚠️  Blockchain service initialization error:', error.message);
+      this.bondToken = null;
+      this.bondIssuance = null;
+      this.milestoneManager = null;
+      this.interestCalculator = null;
+    }
   }
 
   /**
    * Get project details from blockchain
    */
   async getProject(projectId) {
+    if (!this.bondIssuance) {
+      throw new Error('Smart contracts not initialized. Please deploy contracts first.');
+    }
     try {
       const project = await this.bondIssuance.getProject(projectId);
       return {
@@ -69,6 +94,9 @@ class BlockchainService {
    * Get user's token balance
    */
   async getTokenBalance(walletAddress) {
+    if (!this.bondToken) {
+      throw new Error('Smart contracts not initialized. Please deploy contracts first.');
+    }
     try {
       const balance = await this.bondToken.balanceOf(walletAddress);
       return ethers.formatEther(balance);
@@ -191,6 +219,12 @@ class BlockchainService {
    * Listen to contract events
    */
   listenToEvents() {
+    // Check if contracts are initialized
+    if (!this.bondIssuance || !this.milestoneManager || !this.interestCalculator) {
+      console.log('⚠️  Skipping event listeners - contracts not deployed yet');
+      return;
+    }
+
     // Investment events
     this.bondIssuance.on('InvestmentMade', (projectId, investor, amount, tokensMinted, event) => {
       console.log('Investment Event:', {
@@ -230,6 +264,10 @@ class BlockchainService {
    * Get contract with signer (for write operations - admin only)
    */
   getContractWithSigner(contractName, privateKey) {
+    if (!this.bondTokenAddress) {
+      throw new Error('Smart contracts not initialized. Please deploy contracts first.');
+    }
+    
     const wallet = new ethers.Wallet(privateKey, this.provider);
     
     const addresses = {
@@ -239,11 +277,17 @@ class BlockchainService {
       interestCalculator: this.interestCalculatorAddress
     };
 
+    // Load ABIs
+    const BOND_TOKEN_ABI = require('../contracts/InfrastructureBond.json');
+    const BOND_ISSUANCE_ABI = require('../contracts/BondIssuance.json');
+    const MILESTONE_MANAGER_ABI = require('../contracts/MilestoneManager.json');
+    const INTEREST_CALCULATOR_ABI = require('../contracts/InterestCalculator.json');
+    
     const abis = {
-      bondToken: BOND_TOKEN_ABI,
-      bondIssuance: BOND_ISSUANCE_ABI,
-      milestoneManager: MILESTONE_MANAGER_ABI,
-      interestCalculator: INTEREST_CALCULATOR_ABI
+      bondToken: BOND_TOKEN_ABI.abi,
+      bondIssuance: BOND_ISSUANCE_ABI.abi,
+      milestoneManager: MILESTONE_MANAGER_ABI.abi,
+      interestCalculator: INTEREST_CALCULATOR_ABI.abi
     };
 
     return new ethers.Contract(addresses[contractName], abis[contractName], wallet);

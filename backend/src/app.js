@@ -7,6 +7,17 @@ const morgan = require('morgan');
 const { sequelize, testConnection } = require('./config');
 const blockchainService = require('./services/blockchainService');
 
+// Debug guards to surface silent exits and unhandled errors
+process.on('exit', (code) => console.log(`[process.exit] code=${code}`));
+process.on('uncaughtException', (err) => {
+  console.error('[uncaughtException]', err);
+  process.exit(1);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('[unhandledRejection]', reason);
+  process.exit(1);
+});
+
 // Import routes
 const authRoutes = require('./routes/auth');
 const projectRoutes = require('./routes/projects');
@@ -83,7 +94,7 @@ const startServer = async () => {
     }
 
     // Start server
-    app.listen(PORT, () => {
+    const server = app.listen(PORT, () => {
       console.log('');
       console.log('🚀 ========================================');
       console.log(`   INFRACHAIN Backend Server Running`);
@@ -95,6 +106,8 @@ const startServer = async () => {
       console.log('========================================');
       console.log('');
     });
+
+    server.on('close', () => console.log('[server] close event fired'));
   } catch (error) {
     console.error('❌ Failed to start server:', error);
     process.exit(1);
