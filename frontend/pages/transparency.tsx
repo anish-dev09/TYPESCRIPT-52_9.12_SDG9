@@ -22,6 +22,18 @@ interface Milestone {
   amountReleased?: number;
 }
 
+const ProgressBar = ({ progress }: { progress: number }) => (
+  <div className="flex items-center gap-2">
+    <div className="flex-1 bg-gray-200 rounded-full h-2 w-24">
+      <div
+        className="bg-blue-600 h-2 rounded-full transition-all"
+        style={{ width: `${Math.min(progress, 100)}%` } as React.CSSProperties}
+      />
+    </div>
+    <span className="text-sm text-gray-600">{progress.toFixed(0)}%</span>
+  </div>
+);
+
 export default function TransparencyPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -267,17 +279,7 @@ export default function TransparencyPage() {
                         {project.category}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center gap-2">
-                          <div className="flex-1 bg-gray-200 rounded-full h-2 w-24">
-                            {/* Dynamic width requires inline style */}
-                            <div
-                              className="bg-blue-600 h-2 rounded-full transition-all"
-                              // @ts-ignore - Dynamic progress width
-                              style={{ width: `${Math.min(progress, 100)}%` }}
-                            />
-                          </div>
-                          <span className="text-sm text-gray-600">{progress.toFixed(0)}%</span>
-                        </div>
+                        <ProgressBar progress={progress} />
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-medium">
                         {formatCurrency(released)}
