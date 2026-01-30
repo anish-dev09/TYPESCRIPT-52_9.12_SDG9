@@ -99,11 +99,11 @@ export default function ProjectDetailPage() {
               {/* Project Header */}
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex items-start justify-between mb-4">
-                  <div>
+                  <div className="flex-1">
                     <h1 className="text-3xl font-bold text-gray-900 mb-2">
                       {project.name}
                     </h1>
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
+                    <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
                       {project.location && (
                         <span className="flex items-center gap-1">
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -120,6 +120,30 @@ export default function ProjectDetailPage() {
                           {project.category}
                         </span>
                       )}
+                    </div>
+                    
+                    {/* Social Proof - Investor Count */}
+                    <div className="flex items-center gap-2 mt-3">
+                      <div className="flex -space-x-2">
+                        {[...Array(Math.min(project.investorCount || 0, 5))].map((_, i) => (
+                          <div
+                            key={i}
+                            className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 border-2 border-white flex items-center justify-center text-white text-xs font-bold"
+                          >
+                            {String.fromCharCode(65 + i)}
+                          </div>
+                        ))}
+                      </div>
+                      <span className="text-sm font-medium text-gray-700">
+                        {project.investorCount ? (
+                          <>
+                            <span className="text-blue-600 font-bold">{project.investorCount.toLocaleString()}</span>{' '}
+                            {project.investorCount === 1 ? 'investor' : 'investors'} backed this project
+                          </>
+                        ) : (
+                          <span className="text-gray-500">Be the first investor!</span>
+                        )}
+                      </span>
                     </div>
                   </div>
                   <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(project.status)}`}>

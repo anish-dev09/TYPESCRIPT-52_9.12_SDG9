@@ -73,6 +73,24 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
           </div>
         )}
 
+        {/* Social Proof Badge */}
+        {project.investorCount && project.investorCount > 0 && (
+          <div className="mb-4 flex items-center gap-2 text-sm">
+            <div className="flex -space-x-1">
+              {[...Array(Math.min(project.investorCount, 3))].map((_, i) => (
+                <div
+                  key={i}
+                  className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 border-2 border-white"
+                />
+              ))}
+            </div>
+            <span className="text-gray-600">
+              <span className="font-semibold text-gray-900">{project.investorCount.toLocaleString()}</span>{' '}
+              {project.investorCount === 1 ? 'investor' : 'investors'}
+            </span>
+          </div>
+        )}
+
         {/* Funding Progress */}
         <div className="mb-4">
           <div className="flex justify-between text-sm mb-2">

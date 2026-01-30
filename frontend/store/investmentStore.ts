@@ -14,6 +14,7 @@ interface Project {
   status: string;
   category: string;
   location: string;
+  investorCount?: number;
   bondContractAddress?: string;
   issuanceContractAddress?: string;
 }
@@ -23,6 +24,7 @@ interface Investment {
   projectId: string;
   projectName: string;
   tokenAmount: number;
+  tokensHeld: number;
   investmentAmount: number;
   purchaseDate: string;
   interestEarned: number;
