@@ -8,6 +8,7 @@ import PortfolioWidget from '@/components/dashboard/PortfolioWidget';
 import InvestmentTimeline from '@/components/dashboard/InvestmentTimeline';
 import PortfolioDiversification from '@/components/dashboard/PortfolioDiversification';
 import TransactionHistory from '@/components/wallet/TransactionHistory';
+import InvestorAnalytics from '@/components/dashboard/InvestorAnalytics';
 import apiService from '@/services/apiService';
 import toast from 'react-hot-toast';
 
@@ -16,6 +17,7 @@ export default function Dashboard() {
   const { investments, totalInvested, totalTokens, activeProjects, loadInvestments, updatePortfolioSummary } = useInvestmentStore();
   const [loading, setLoading] = useState(true);
   const [monthlyInterest, setMonthlyInterest] = useState(0);
+  const [performanceHistory, setPerformanceHistory] = useState<any[]>([]);
 
   useEffect(() => {
     loadDashboardData();
@@ -34,6 +36,9 @@ export default function Dashboard() {
           return sum + (inv.interestEarned || 0);
         }, 0);
         setMonthlyInterest(interest);
+
+        // Generate performance history data (mock)
+        generatePerformanceHistory(response.data);
       }
     } catch (error) {
       console.error('Error loading dashboard:', error);
@@ -42,6 +47,45 @@ export default function Dashboard() {
       setLoading(false);
     }
   };
+
+  const generatePerformanceHistory = (investmentData: any[]) => {
+    // Generate 12 months of performance data
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const currentMonth = new Date().getMonth();
+    const history = [];
+
+    for (let i = 11; i >= 0; i--) {
+      const monthIndex = (currentMonth - i + 12) % 12;
+      const monthProgress = (11 - i) / 11; // Progress from 0 to 1
+
+      // Simulate portfolio growth with some volatility
+      const portfolioValue = totalInvested * (1 + monthProgress * 0.15 + Math.random() * 0.05);
+      // Benchmark grows steadily at lower rate
+      const benchmark = totalInvested * (1 + monthProgress * 0.08);
+
+      history.push({
+        month: months[monthIndex],
+        portfolio: Math.round(portfolioValue),
+        benchmark: Math.round(benchmark),
+      });
+    }
+
+    setPerformanceHistory(history);
+  };
+
+  // Transform investments to portfolio format for InvestorAnalytics
+  const portfolioData = investments.map((inv: any) => ({
+    projectId: inv.projectId,
+    projectName: inv.projectName || 'Unknown Project',
+    invested: inv.amount || 0,
+    currentValue: inv.amount * (1 + (Math.random() * 0.3 - 0.1)), // Mock current value with +/- 10% variance
+    tokens: inv.tokens || 0,
+    roi: ((inv.amount * (1 + (Math.random() * 0.3 - 0.1)) - inv.amount) / inv.amount) * 100,
+    category: inv.category || 'Infrastructure',
+  }));
+
+  const currentValue = portfolioData.reduce((sum: number, p: any) => sum + p.currentValue, 0);
+  const totalROI = totalInvested > 0 ? ((currentValue - totalInvested) / totalInvested) * 100 : 0;
 
   return (
     <ProtectedRoute>
@@ -78,6 +122,18 @@ export default function Dashboard() {
             {/* Portfolio Diversification */}
             {investments.length > 0 && (
               <PortfolioDiversification investments={investments} />
+            )}
+
+            {/* Investor Analytics - Performance & ROI Tracking */}
+            {investments.length > 0 && (
+              <InvestorAnalytics
+                portfolio={portfolioData}
+                performanceHistory={performanceHistory}
+                totalInvested={totalInvested}
+                currentValue={currentValue}
+                totalROI={totalROI}
+                monthlyInterest={monthlyInterest}
+              />
             )}
 
             {/* Transaction History - Only show if wallet is connected */}
