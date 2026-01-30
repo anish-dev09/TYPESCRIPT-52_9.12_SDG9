@@ -3,6 +3,14 @@ const { ethers } = require('ethers');
 
 class BlockchainService {
   constructor() {
+    this.isConnected = false;
+    this.provider = null;
+    this.web3 = null;
+    this.bondToken = null;
+    this.bondIssuance = null;
+    this.milestoneManager = null;
+    this.interestCalculator = null;
+    
     try {
       // Contract addresses from environment
       this.bondTokenAddress = process.env.BOND_TOKEN_ADDRESS;
@@ -15,9 +23,18 @@ class BlockchainService {
                         this.bondTokenAddress !== '0x0000000000000000000000000000000000000000';
       
       if (isDeployed) {
-        // Only create provider and web3 if contracts are deployed
-        this.provider = new ethers.JsonRpcProvider(process.env.BLOCKCHAIN_RPC_URL);
+        // Create provider with static network to avoid auto-detection
+        this.provider = new ethers.JsonRpcProvider(
+          process.env.BLOCKCHAIN_RPC_URL,
+          { chainId: 31337, name: 'hardhat' },
+          { staticNetwork: true }
+        );
+        
+        // Disable automatic polling that causes crashes
+        this.provider.pollingInterval = 0;
+        
         this.web3 = new Web3(process.env.BLOCKCHAIN_RPC_URL);
+        
         // Contract ABIs - load only if contracts are deployed
         const BOND_TOKEN_ABI = require('../contracts/InfrastructureBond.json');
         const BOND_ISSUANCE_ABI = require('../contracts/BondIssuance.json');
@@ -49,21 +66,48 @@ class BlockchainService {
           this.provider
         );
         
+        // Test connection asynchronously without blocking startup
+        this._testConnection().catch(err => {
+          console.error('⚠️  Connection test failed:', err.message);
+        });
+        
         console.log('✅ Blockchain contracts initialized');
       } else {
         console.log('⚠️  Smart contracts not deployed yet. Deploy contracts and update .env with addresses.');
-        this.bondToken = null;
-        this.bondIssuance = null;
-        this.milestoneManager = null;
-        this.interestCalculator = null;
       }
     } catch (error) {
       console.error('⚠️  Blockchain service initialization error:', error.message);
-      this.bondToken = null;
-      this.bondIssuance = null;
-      this.milestoneManager = null;
-      this.interestCalculator = null;
+      this.isConnected = false;
     }
+  }
+
+  /**
+   * Test blockchain connection asynchronously
+   */
+  async _testConnection() {
+    if (!this.provider) return;
+    
+    try {
+      // Set a reasonable timeout for the connection test
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Connection timeout')), 5000)
+      );
+      
+      const blockNumber = await Promise.race([
+        this.provider.getBlockNumber(),
+        timeoutPromise
+      ]);
+      
+      this.isConnected = true;
+      console.log('✅ Blockchain connected - Block:', blockNumber);
+    } catch (error) {
+      this.isConnected = false;
+      console.log('⚠️  Blockchain node not available:', error.message);
+      console.log('   Auth endpoints will work, but blockchain features are disabled.');
+      // Don't re-throw - let the service continue without blockchain
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -225,39 +269,50 @@ class BlockchainService {
       return;
     }
 
-    // Investment events
-    this.bondIssuance.on('InvestmentMade', (projectId, investor, amount, tokensMinted, event) => {
-      console.log('Investment Event:', {
-        projectId: Number(projectId),
-        investor,
-        amount: ethers.formatEther(amount),
-        tokensMinted: ethers.formatEther(tokensMinted),
-        txHash: event.log.transactionHash
-      });
-      // Emit to websocket or process
-    });
+    if (!this.isConnected) {
+      console.log('⚠️  Skipping event listeners - blockchain node not connected');
+      return;
+    }
 
-    // Milestone completion events
-    this.milestoneManager.on('MilestoneCompleted', (projectId, milestoneIndex, fundsReleased, evidenceHash, event) => {
-      console.log('Milestone Completed:', {
-        projectId: Number(projectId),
-        milestoneIndex: Number(milestoneIndex),
-        fundsReleased: ethers.formatEther(fundsReleased),
-        evidenceHash,
-        txHash: event.log.transactionHash
+    try {
+      // Investment events
+      this.bondIssuance.on('InvestmentMade', (projectId, investor, amount, tokensMinted, event) => {
+        console.log('Investment Event:', {
+          projectId: Number(projectId),
+          investor,
+          amount: ethers.formatEther(amount),
+          tokensMinted: ethers.formatEther(tokensMinted),
+          txHash: event.log.transactionHash
+        });
+        // Emit to websocket or process
       });
-    });
 
-    // Interest claim events
-    this.interestCalculator.on('InterestClaimed', (investor, projectId, amount, tokensMinted, event) => {
-      console.log('Interest Claimed:', {
-        investor,
-        projectId: Number(projectId),
-        amount: ethers.formatEther(amount),
-        tokensMinted: ethers.formatEther(tokensMinted),
-        txHash: event.log.transactionHash
+      // Milestone completion events
+      this.milestoneManager.on('MilestoneCompleted', (projectId, milestoneIndex, fundsReleased, evidenceHash, event) => {
+        console.log('Milestone Completed:', {
+          projectId: Number(projectId),
+          milestoneIndex: Number(milestoneIndex),
+          fundsReleased: ethers.formatEther(fundsReleased),
+          evidenceHash,
+          txHash: event.log.transactionHash
+        });
       });
-    });
+
+      // Interest claim events
+      this.interestCalculator.on('InterestClaimed', (investor, projectId, amount, tokensMinted, event) => {
+        console.log('Interest Claimed:', {
+          investor,
+          projectId: Number(projectId),
+          amount: ethers.formatEther(amount),
+          tokensMinted: ethers.formatEther(tokensMinted),
+          txHash: event.log.transactionHash
+        });
+      });
+      
+      console.log('✅ Blockchain event listeners registered');
+    } catch (error) {
+      console.error('⚠️  Error registering event listeners:', error.message);
+    }
   }
 
   /**

@@ -11,11 +11,39 @@ const { authMiddleware } = require('../middleware/auth');
 router.get('/nonce', authController.getNonce);
 
 /**
- * @route   POST /api/auth/login
- * @desc    Login or register with wallet signature
+ * @route   POST /api/auth/register
+ * @desc    Register new user with wallet
  * @access  Public
  */
-router.post('/login', authController.loginWithWallet);
+router.post('/register', authController.register);
+
+/**
+ * @route   POST /api/auth/login
+ * @desc    Login with wallet signature
+ * @access  Public
+ */
+router.post('/login', authController.login);
+
+/**
+ * @route   POST /api/auth/wallet
+ * @desc    Login or register with wallet signature (legacy)
+ * @access  Public
+ */
+router.post('/wallet', authController.loginWithWallet);
+
+/**
+ * @route   POST /api/auth/signup
+ * @desc    Register with email and password
+ * @access  Public
+ */
+router.post('/signup', authController.emailSignup);
+
+/**
+ * @route   POST /api/auth/email-login
+ * @desc    Login with email and password
+ * @access  Public
+ */
+router.post('/email-login', authController.emailLogin);
 
 /**
  * @route   GET /api/auth/profile

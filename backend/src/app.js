@@ -24,6 +24,8 @@ const projectRoutes = require('./routes/projects');
 const investmentRoutes = require('./routes/investments');
 const milestoneRoutes = require('./routes/milestones');
 const blockchainRoutes = require('./routes/blockchain');
+const kycRoutes = require('./routes/kyc');
+const adminRoutes = require('./routes/admin');
 
 const app = express();
 
@@ -54,6 +56,8 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/investments', investmentRoutes);
 app.use('/api/milestones', milestoneRoutes);
 app.use('/api/blockchain', blockchainRoutes);
+app.use('/api/kyc', kycRoutes);
+app.use('/api/admin', adminRoutes);
 
 // 404 handler
 app.use((req, res) => {
@@ -70,15 +74,12 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-// Initialize and start server
+// Initialize and start server  
 const startServer = async () => {
   try {
     // Test database connection
     const dbConnected = await testConnection();
-    if (!dbConnected) {
-      console.warn('⚠️  Database connection failed. API will run with limited functionality.');
-    }
-
+    
     // Sync database models (development only)
     if (process.env.NODE_ENV === 'development') {
       await sequelize.sync({ alter: false });
@@ -93,27 +94,37 @@ const startServer = async () => {
       console.warn('⚠️  Blockchain connection issue:', blockchainError.message);
     }
 
-    // Start server
-    const server = app.listen(PORT, () => {
-      console.log('');
-      console.log('🚀 ========================================');
-      console.log(`   INFRACHAIN Backend Server Running`);
-      console.log('========================================');
-      console.log(`📡 Port: ${PORT}`);
-      console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-      console.log(`🗄️  Database: ${dbConnected ? 'Connected' : 'Disconnected'}`);
-      console.log(`⛓️  Blockchain: ${process.env.BLOCKCHAIN_RPC_URL || 'Not configured'}`);
-      console.log('========================================');
-      console.log('');
-    });
+    // Start server - wrap in Promise to await completion
+    await new Promise((resolve, reject) => {
+      const server = app.listen(PORT, '0.0.0.0', () => {
+        console.log('');
+        console.log('🚀 ========================================');
+        console.log(`   INFRACHAIN Backend Server Running`);
+        console.log('========================================');
+        console.log(`📡 Port: ${PORT}`);
+        console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+        console.log(`🗄️  Database: ${dbConnected ? 'Connected' : 'Disconnected'}`);
+        console.log(`⛓️  Blockchain: ${process.env.BLOCKCHAIN_RPC_URL || 'Not configured'}`);
+        console.log('========================================');
+        console.log('');
+        resolve(server);
+      });
 
-    server.on('close', () => console.log('[server] close event fired'));
+      server.on('close', () => console.log('[server] close event fired'));
+      server.on('error', (err) => {
+        console.error('[server] error event:', err);
+        reject(err);
+      });
+    });
   } catch (error) {
     console.error('❌ Failed to start server:', error);
     process.exit(1);
   }
 };
 
-startServer();
+startServer().catch(err => {
+  console.error('Startup error:', err);
+  process.exit(1);
+});
 
 module.exports = app;

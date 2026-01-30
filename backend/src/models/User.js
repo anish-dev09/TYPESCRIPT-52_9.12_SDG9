@@ -9,7 +9,7 @@ const User = sequelize.define('User', {
   },
   walletAddress: {
     type: DataTypes.STRING(42),
-    allowNull: false,
+    allowNull: true, // Changed to true to support email-only users
     unique: true,
     validate: {
       is: /^0x[a-fA-F0-9]{40}$/
@@ -23,12 +23,19 @@ const User = sequelize.define('User', {
       isEmail: true
     }
   },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: true, // Null for wallet-only users
+    validate: {
+      len: [6, 255] // Minimum 6 characters for password
+    }
+  },
   name: {
     type: DataTypes.STRING,
     allowNull: true
   },
   role: {
-    type: DataTypes.ENUM('investor', 'project_manager', 'admin'),
+    type: DataTypes.ENUM('investor', 'project_manager', 'admin', 'auditor'),
     defaultValue: 'investor',
     allowNull: false
   },
