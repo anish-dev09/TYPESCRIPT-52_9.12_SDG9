@@ -1,0 +1,848 @@
+[
+  {
+    "id": "proj-001",
+    "name": "Mumbai Coastal Road Extension Phase 2",
+    "category": "Transportation",
+    "description": "10.5 km coastal expressway connecting Worli to Versova, featuring 8-lane highway with dedicated bicycle lanes and pedestrian walkways. Includes 3 major interchanges and 2 sea bridges.",
+    "location": "Mumbai, Maharashtra",
+    "totalFunding": 50000000000,
+    "currentFunding": 35000000000,
+    "targetDate": "2028-12-31",
+    "interestRate": 8.5,
+    "riskLevel": "medium",
+    "duration": 48,
+    "status": "active",
+    "minInvestment": 10000,
+    "tokenPrice": 100,
+    "tokensIssued": 350000000,
+    "totalTokens": 500000000,
+    "investors": 12450,
+    "milestones": [
+      {
+        "id": "m1",
+        "name": "Land Acquisition & Environmental Clearance",
+        "description": "Complete land acquisition, EIA reports, and regulatory approvals",
+        "targetDate": "2026-06-30",
+        "completedDate": "2026-06-15",
+        "status": "completed",
+        "fundReleaseAmount": 5000000000,
+        "progressPercentage": 100,
+        "deliverables": [
+          "Land acquisition certificates",
+          "Environmental clearance documents",
+          "NOCs from relevant authorities"
+        ]
+      },
+      {
+        "id": "m2",
+        "name": "Foundation & Piling Work",
+        "description": "Deep sea piling and foundation work for bridge sections",
+        "targetDate": "2027-03-31",
+        "completedDate": "2027-03-20",
+        "status": "completed",
+        "fundReleaseAmount": 8000000000,
+        "progressPercentage": 100,
+        "deliverables": [
+          "Completed piling work",
+          "Foundation inspection reports",
+          "Quality certificates"
+        ]
+      },
+      {
+        "id": "m3",
+        "name": "Main Construction Phase",
+        "description": "Highway construction, bridge erection, and interchange development",
+        "targetDate": "2028-06-30",
+        "status": "in-progress",
+        "fundReleaseAmount": 22000000000,
+        "progressPercentage": 65,
+        "deliverables": [
+          "6.5 km highway completed",
+          "2 interchanges operational",
+          "Bridge structural work 70% done"
+        ]
+      },
+      {
+        "id": "m4",
+        "name": "Road Surfacing & Safety Systems",
+        "description": "Final road surfacing, lighting, signage, and safety barriers",
+        "targetDate": "2028-10-31",
+        "status": "pending",
+        "fundReleaseAmount": 10000000000,
+        "progressPercentage": 0,
+        "deliverables": []
+      },
+      {
+        "id": "m5",
+        "name": "Testing & Commissioning",
+        "description": "Load testing, safety audits, and final handover",
+        "targetDate": "2028-12-31",
+        "status": "pending",
+        "fundReleaseAmount": 5000000000,
+        "progressPercentage": 0,
+        "deliverables": []
+      }
+    ],
+    "impact": {
+      "infrastructure": {
+        "roadsBuilt": 10.5,
+        "bridgesCompleted": 2,
+        "interchanges": 3
+      },
+      "social": {
+        "livesImpacted": 2500000,
+        "jobsCreated": 8500,
+        "communitiesServed": 45,
+        "travelTimeSaved": 45
+      },
+      "environmental": {
+        "co2Reduction": 125000,
+        "treesPlanted": 12000,
+        "greenSpacesCreated": 5
+      }
+    },
+    "sdgAlignment": {
+      "sdg9": 95,
+      "sdg11": 90,
+      "sdg13": 75
+    }
+  },
+  {
+    "id": "proj-002",
+    "name": "Rajasthan Solar Power Plant Network",
+    "category": "Energy",
+    "description": "500 MW distributed solar power plant across 5 districts in Rajasthan with battery storage capacity. Grid-connected renewable energy project with smart metering.",
+    "location": "Jodhpur, Jaisalmer, Bikaner Districts",
+    "totalFunding": 25000000000,
+    "currentFunding": 25000000000,
+    "targetDate": "2027-06-30",
+    "interestRate": 9.2,
+    "riskLevel": "low",
+    "duration": 36,
+    "status": "active",
+    "minInvestment": 5000,
+    "tokenPrice": 100,
+    "tokensIssued": 250000000,
+    "totalTokens": 250000000,
+    "investors": 18920,
+    "milestones": [
+      {
+        "id": "m1",
+        "name": "Site Preparation & Grid Connection",
+        "description": "Land leveling, fencing, and grid connectivity establishment",
+        "targetDate": "2026-03-31",
+        "completedDate": "2026-03-15",
+        "status": "completed",
+        "fundReleaseAmount": 3000000000,
+        "progressPercentage": 100,
+        "deliverables": [
+          "Site preparation complete",
+          "Grid connection approved",
+          "Transmission infrastructure ready"
+        ]
+      },
+      {
+        "id": "m2",
+        "name": "Solar Panel Installation - Phase 1",
+        "description": "Installation of 300 MW solar panels and inverters",
+        "targetDate": "2026-09-30",
+        "completedDate": "2026-09-20",
+        "status": "completed",
+        "fundReleaseAmount": 12000000000,
+        "progressPercentage": 100,
+        "deliverables": [
+          "300 MW panels installed",
+          "Inverters commissioned",
+          "Phase 1 operational"
+        ]
+      },
+      {
+        "id": "m3",
+        "name": "Battery Storage & Remaining Capacity",
+        "description": "Install remaining 200 MW and battery storage systems",
+        "targetDate": "2027-03-31",
+        "status": "in-progress",
+        "fundReleaseAmount": 8000000000,
+        "progressPercentage": 75,
+        "deliverables": [
+          "150 MW panels installed",
+          "Battery storage 80% complete"
+        ]
+      },
+      {
+        "id": "m4",
+        "name": "Smart Metering & Grid Integration",
+        "description": "Install smart meters and complete grid synchronization",
+        "targetDate": "2027-06-30",
+        "status": "pending",
+        "fundReleaseAmount": 2000000000,
+        "progressPercentage": 0,
+        "deliverables": []
+      }
+    ],
+    "impact": {
+      "infrastructure": {
+        "powerCapacityMW": 500,
+        "batteryStorageMWh": 200,
+        "villagePowered": 450
+      },
+      "social": {
+        "livesImpacted": 1800000,
+        "jobsCreated": 3200,
+        "communitiesServed": 450
+      },
+      "environmental": {
+        "co2Reduction": 450000,
+        "renewableEnergyMW": 500,
+        "carbonCredits": 1200000
+      }
+    },
+    "sdgAlignment": {
+      "sdg7": 98,
+      "sdg13": 95,
+      "sdg9": 85
+    }
+  },
+  {
+    "id": "proj-003",
+    "name": "Delhi Metro Purple Line Extension",
+    "category": "Transportation",
+    "description": "15 km metro extension with 11 new stations connecting Badarpur to Faridabad. Includes depot expansion and rolling stock procurement.",
+    "location": "Delhi NCR",
+    "totalFunding": 35000000000,
+    "currentFunding": 8500000000,
+    "targetDate": "2029-12-31",
+    "interestRate": 7.8,
+    "riskLevel": "low",
+    "duration": 60,
+    "status": "funding",
+    "minInvestment": 10000,
+    "tokenPrice": 100,
+    "tokensIssued": 85000000,
+    "totalTokens": 350000000,
+    "investors": 4560,
+    "milestones": [
+      {
+        "id": "m1",
+        "name": "Detailed Project Report & Approvals",
+        "description": "Complete DPR, land acquisition, and regulatory clearances",
+        "targetDate": "2026-12-31",
+        "status": "in-progress",
+        "fundReleaseAmount": 2000000000,
+        "progressPercentage": 40,
+        "deliverables": [
+          "DPR submitted",
+          "Land acquisition 30% complete"
+        ]
+      },
+      {
+        "id": "m2",
+        "name": "Tunnel Boring & Civil Works",
+        "description": "Underground tunnel construction and station civil works",
+        "targetDate": "2028-06-30",
+        "status": "pending",
+        "fundReleaseAmount": 18000000000,
+        "progressPercentage": 0,
+        "deliverables": []
+      },
+      {
+        "id": "m3",
+        "name": "Track Laying & Electrification",
+        "description": "Rail track installation and overhead electrification",
+        "targetDate": "2029-03-31",
+        "status": "pending",
+        "fundReleaseAmount": 8000000000,
+        "progressPercentage": 0,
+        "deliverables": []
+      },
+      {
+        "id": "m4",
+        "name": "Rolling Stock & Commissioning",
+        "description": "Metro coach procurement and trial runs",
+        "targetDate": "2029-12-31",
+        "status": "pending",
+        "fundReleaseAmount": 7000000000,
+        "progressPercentage": 0,
+        "deliverables": []
+      }
+    ],
+    "impact": {
+      "infrastructure": {
+        "metroLineKm": 15,
+        "stationsBuilt": 11,
+        "rollingStock": 24
+      },
+      "social": {
+        "livesImpacted": 3500000,
+        "dailyRidership": 450000,
+        "jobsCreated": 5600,
+        "travelTimeSaved": 60
+      },
+      "environmental": {
+        "co2Reduction": 180000,
+        "vehicleTripsReduced": 12500000
+      }
+    },
+    "sdgAlignment": {
+      "sdg11": 92,
+      "sdg9": 88,
+      "sdg13": 80
+    }
+  },
+  {
+    "id": "proj-004",
+    "name": "Ganga River Water Treatment Plant",
+    "category": "Water",
+    "description": "500 MLD sewage treatment plant with tertiary treatment capabilities. Part of Namami Gange mission for river rejuvenation.",
+    "location": "Varanasi, Uttar Pradesh",
+    "totalFunding": 12000000000,
+    "currentFunding": 12000000000,
+    "targetDate": "2027-03-31",
+    "interestRate": 8.8,
+    "riskLevel": "medium",
+    "duration": 24,
+    "status": "active",
+    "minInvestment": 5000,
+    "tokenPrice": 100,
+    "tokensIssued": 120000000,
+    "totalTokens": 120000000,
+    "investors": 9840,
+    "milestones": [
+      {
+        "id": "m1",
+        "name": "Civil Construction & Piping",
+        "description": "Treatment plant building and sewage collection network",
+        "targetDate": "2026-06-30",
+        "completedDate": "2026-06-20",
+        "status": "completed",
+        "fundReleaseAmount": 4000000000,
+        "progressPercentage": 100,
+        "deliverables": [
+          "Plant building completed",
+          "Piping network installed",
+          "Pump stations operational"
+        ]
+      },
+      {
+        "id": "m2",
+        "name": "Equipment Installation",
+        "description": "Install treatment equipment, filters, and automation systems",
+        "targetDate": "2026-11-30",
+        "completedDate": "2026-11-25",
+        "status": "completed",
+        "fundReleaseAmount": 5000000000,
+        "progressPercentage": 100,
+        "deliverables": [
+          "Primary treatment units installed",
+          "Secondary treatment operational",
+          "Tertiary treatment equipment ready"
+        ]
+      },
+      {
+        "id": "m3",
+        "name": "Testing & Commissioning",
+        "description": "Trial runs, water quality testing, and final commissioning",
+        "targetDate": "2027-03-31",
+        "status": "in-progress",
+        "fundReleaseAmount": 3000000000,
+        "progressPercentage": 85,
+        "deliverables": [
+          "Trial runs successful",
+          "Water quality tests passed",
+          "BOD reduction achieved"
+        ]
+      }
+    ],
+    "impact": {
+      "infrastructure": {
+        "waterTreatmentMLD": 500,
+        "pipelineKm": 45,
+        "pumpStations": 8
+      },
+      "social": {
+        "livesImpacted": 2200000,
+        "householdsServed": 380000,
+        "jobsCreated": 1200
+      },
+      "environmental": {
+        "waterPurifiedMLDYear": 182500,
+        "bodReductionPercent": 90,
+        "riverQualityImprovement": 75
+      }
+    },
+    "sdgAlignment": {
+      "sdg6": 95,
+      "sdg14": 85,
+      "sdg3": 80
+    }
+  },
+  {
+    "id": "proj-005",
+    "name": "Kerala Smart City Integrated Command Center",
+    "category": "Technology",
+    "description": "Integrated command and control center for traffic management, emergency response, and city surveillance across 3 Kerala cities.",
+    "location": "Kochi, Thiruvananthapuram, Kozhikode",
+    "totalFunding": 8000000000,
+    "currentFunding": 6500000000,
+    "targetDate": "2027-12-31",
+    "interestRate": 9.5,
+    "riskLevel": "medium",
+    "duration": 30,
+    "status": "active",
+    "minInvestment": 5000,
+    "tokenPrice": 100,
+    "tokensIssued": 65000000,
+    "totalTokens": 80000000,
+    "investors": 7230,
+    "milestones": [
+      {
+        "id": "m1",
+        "name": "Infrastructure Setup & Network",
+        "description": "Build command centers and establish fiber optic network",
+        "targetDate": "2026-09-30",
+        "completedDate": "2026-09-15",
+        "status": "completed",
+        "fundReleaseAmount": 2500000000,
+        "progressPercentage": 100,
+        "deliverables": [
+          "3 command centers built",
+          "Fiber network established",
+          "Power backup systems installed"
+        ]
+      },
+      {
+        "id": "m2",
+        "name": "Surveillance & Sensor Deployment",
+        "description": "Install cameras, sensors, and IoT devices city-wide",
+        "targetDate": "2027-06-30",
+        "status": "in-progress",
+        "fundReleaseAmount": 3000000000,
+        "progressPercentage": 70,
+        "deliverables": [
+          "850 cameras installed",
+          "Traffic sensors operational",
+          "Air quality monitors deployed"
+        ]
+      },
+      {
+        "id": "m3",
+        "name": "Software Integration & Testing",
+        "description": "Integrate AI analytics, emergency response systems, and dashboards",
+        "targetDate": "2027-12-31",
+        "status": "pending",
+        "fundReleaseAmount": 2500000000,
+        "progressPercentage": 0,
+        "deliverables": []
+      }
+    ],
+    "impact": {
+      "infrastructure": {
+        "camerasInstalled": 1200,
+        "fiberNetworkKm": 350,
+        "emergencyResponseTime": -40
+      },
+      "social": {
+        "livesImpacted": 4500000,
+        "citiesCovered": 3,
+        "emergencyResponseImprovement": 40
+      },
+      "environmental": {
+        "trafficCongestionReduction": 30,
+        "airQualityMonitoringPoints": 45
+      }
+    },
+    "sdgAlignment": {
+      "sdg11": 90,
+      "sdg9": 88,
+      "sdg16": 75
+    }
+  },
+  {
+    "id": "proj-006",
+    "name": "Bangalore Metro Airport Line",
+    "category": "Transportation",
+    "description": "29 km elevated metro line from city center to Kempegowda International Airport with 17 stations. Includes depot and rolling stock.",
+    "location": "Bangalore, Karnataka",
+    "totalFunding": 58000000000,
+    "currentFunding": 15000000000,
+    "targetDate": "2030-06-30",
+    "interestRate": 7.5,
+    "riskLevel": "low",
+    "duration": 72,
+    "status": "funding",
+    "minInvestment": 10000,
+    "tokenPrice": 100,
+    "tokensIssued": 150000000,
+    "totalTokens": 580000000,
+    "investors": 6780,
+    "milestones": [
+      {
+        "id": "m1",
+        "name": "DPR & Land Acquisition",
+        "description": "Complete detailed project report and acquire land parcels",
+        "targetDate": "2027-06-30",
+        "status": "in-progress",
+        "fundReleaseAmount": 5000000000,
+        "progressPercentage": 35,
+        "deliverables": [
+          "DPR approved",
+          "Land acquisition 25% complete"
+        ]
+      },
+      {
+        "id": "m2",
+        "name": "Viaduct Construction",
+        "description": "Build elevated viaduct and station structures",
+        "targetDate": "2029-03-31",
+        "status": "pending",
+        "fundReleaseAmount": 35000000000,
+        "progressPercentage": 0,
+        "deliverables": []
+      },
+      {
+        "id": "m3",
+        "name": "Track & Systems Installation",
+        "description": "Track laying, electrification, and signaling systems",
+        "targetDate": "2029-12-31",
+        "status": "pending",
+        "fundReleaseAmount": 12000000000,
+        "progressPercentage": 0,
+        "deliverables": []
+      },
+      {
+        "id": "m4",
+        "name": "Rolling Stock & Commissioning",
+        "description": "Metro coaches and trial operations",
+        "targetDate": "2030-06-30",
+        "status": "pending",
+        "fundReleaseAmount": 6000000000,
+        "progressPercentage": 0,
+        "deliverables": []
+      }
+    ],
+    "impact": {
+      "infrastructure": {
+        "metroLineKm": 29,
+        "stationsBuilt": 17,
+        "rollingStock": 36
+      },
+      "social": {
+        "livesImpacted": 5200000,
+        "dailyRidership": 650000,
+        "jobsCreated": 7800,
+        "travelTimeSaved": 75
+      },
+      "environmental": {
+        "co2Reduction": 285000,
+        "vehicleTripsReduced": 18500000
+      }
+    },
+    "sdgAlignment": {
+      "sdg11": 94,
+      "sdg9": 90,
+      "sdg13": 82
+    }
+  },
+  {
+    "id": "proj-007",
+    "name": "Assam Rural Healthcare Network",
+    "category": "Healthcare",
+    "description": "Establish 50 primary health centers and 5 district hospitals with telemedicine connectivity across rural Assam districts.",
+    "location": "Assam (Multiple Districts)",
+    "totalFunding": 18000000000,
+    "currentFunding": 18000000000,
+    "targetDate": "2028-03-31",
+    "interestRate": 8.0,
+    "riskLevel": "medium",
+    "duration": 36,
+    "status": "active",
+    "minInvestment": 5000,
+    "tokenPrice": 100,
+    "tokensIssued": 180000000,
+    "totalTokens": 180000000,
+    "investors": 14560,
+    "milestones": [
+      {
+        "id": "m1",
+        "name": "Phase 1: PHC Construction",
+        "description": "Build 25 primary health centers with basic facilities",
+        "targetDate": "2026-12-31",
+        "completedDate": "2026-12-20",
+        "status": "completed",
+        "fundReleaseAmount": 5000000000,
+        "progressPercentage": 100,
+        "deliverables": [
+          "25 PHCs constructed",
+          "Basic equipment installed",
+          "Staff quarters built"
+        ]
+      },
+      {
+        "id": "m2",
+        "name": "Phase 2: Remaining PHCs & Hospitals",
+        "description": "Complete remaining 25 PHCs and 5 district hospitals",
+        "targetDate": "2027-09-30",
+        "status": "in-progress",
+        "fundReleaseAmount": 9000000000,
+        "progressPercentage": 55,
+        "deliverables": [
+          "15 PHCs operational",
+          "3 district hospitals completed",
+          "Medical equipment 60% procured"
+        ]
+      },
+      {
+        "id": "m3",
+        "name": "Telemedicine Network & Staffing",
+        "description": "Establish telemedicine infrastructure and recruit medical staff",
+        "targetDate": "2028-03-31",
+        "status": "pending",
+        "fundReleaseAmount": 4000000000,
+        "progressPercentage": 0,
+        "deliverables": []
+      }
+    ],
+    "impact": {
+      "infrastructure": {
+        "healthCentersBuilt": 50,
+        "districtHospitals": 5,
+        "bedsAdded": 850
+      },
+      "social": {
+        "livesImpacted": 3200000,
+        "villagesCovered": 680,
+        "doctorsRecruited": 180,
+        "nursesRecruited": 420
+      },
+      "environmental": {
+        "solarPoweredFacilities": 30,
+        "rainwaterHarvesting": 55
+      }
+    },
+    "sdgAlignment": {
+      "sdg3": 96,
+      "sdg10": 85,
+      "sdg1": 78
+    }
+  },
+  {
+    "id": "proj-008",
+    "name": "Gujarat Wind Power Farm Network",
+    "category": "Energy",
+    "description": "750 MW onshore wind power generation with 250 turbines across Kutch and Jamnagar districts. Includes grid connectivity and maintenance facilities.",
+    "location": "Kutch & Jamnagar, Gujarat",
+    "totalFunding": 42000000000,
+    "currentFunding": 10500000000,
+    "targetDate": "2029-12-31",
+    "interestRate": 9.8,
+    "riskLevel": "medium",
+    "duration": 48,
+    "status": "funding",
+    "minInvestment": 10000,
+    "tokenPrice": 100,
+    "tokensIssued": 105000000,
+    "totalTokens": 420000000,
+    "investors": 5430,
+    "milestones": [
+      {
+        "id": "m1",
+        "name": "Wind Resource Assessment & Land",
+        "description": "Complete wind studies and secure land leases",
+        "targetDate": "2027-03-31",
+        "status": "in-progress",
+        "fundReleaseAmount": 2500000000,
+        "progressPercentage": 45,
+        "deliverables": [
+          "Wind resource studies completed",
+          "Land leases 40% secured"
+        ]
+      },
+      {
+        "id": "m2",
+        "name": "Phase 1: 300 MW Installation",
+        "description": "Install 100 turbines and grid connectivity",
+        "targetDate": "2028-06-30",
+        "status": "pending",
+        "fundReleaseAmount": 18000000000,
+        "progressPercentage": 0,
+        "deliverables": []
+      },
+      {
+        "id": "m3",
+        "name": "Phase 2: Remaining 450 MW",
+        "description": "Install remaining 150 turbines and full commissioning",
+        "targetDate": "2029-12-31",
+        "status": "pending",
+        "fundReleaseAmount": 21500000000,
+        "progressPercentage": 0,
+        "deliverables": []
+      }
+    ],
+    "impact": {
+      "infrastructure": {
+        "powerCapacityMW": 750,
+        "turbinesInstalled": 250,
+        "gridSubstations": 6
+      },
+      "social": {
+        "livesImpacted": 2800000,
+        "jobsCreated": 2400,
+        "villagesPowered": 580
+      },
+      "environmental": {
+        "co2Reduction": 680000,
+        "renewableEnergyMW": 750,
+        "carbonCredits": 1850000
+      }
+    },
+    "sdgAlignment": {
+      "sdg7": 96,
+      "sdg13": 93,
+      "sdg9": 82
+    }
+  },
+  {
+    "id": "proj-009",
+    "name": "Punjab Agriculture Cold Chain Network",
+    "category": "Agriculture",
+    "description": "Integrated cold storage and cold chain logistics network with 25 facilities for reducing post-harvest losses. Includes solar-powered refrigeration.",
+    "location": "Punjab (Multiple Districts)",
+    "totalFunding": 6500000000,
+    "currentFunding": 6500000000,
+    "targetDate": "2027-06-30",
+    "interestRate": 10.2,
+    "riskLevel": "high",
+    "duration": 24,
+    "status": "active",
+    "minInvestment": 5000,
+    "tokenPrice": 100,
+    "tokensIssued": 65000000,
+    "totalTokens": 65000000,
+    "investors": 8920,
+    "milestones": [
+      {
+        "id": "m1",
+        "name": "Phase 1: 12 Cold Storage Facilities",
+        "description": "Build 12 cold storage units with solar power",
+        "targetDate": "2026-09-30",
+        "completedDate": "2026-09-25",
+        "status": "completed",
+        "fundReleaseAmount": 3000000000,
+        "progressPercentage": 100,
+        "deliverables": [
+          "12 facilities operational",
+          "Solar panels installed",
+          "Refrigeration systems active"
+        ]
+      },
+      {
+        "id": "m2",
+        "name": "Phase 2: Remaining Facilities & Logistics",
+        "description": "Complete 13 facilities and establish refrigerated transport fleet",
+        "targetDate": "2027-06-30",
+        "status": "in-progress",
+        "fundReleaseAmount": 3500000000,
+        "progressPercentage": 80,
+        "deliverables": [
+          "10 facilities completed",
+          "20 refrigerated trucks operational",
+          "Farmer training programs started"
+        ]
+      }
+    ],
+    "impact": {
+      "infrastructure": {
+        "coldStorageFacilities": 25,
+        "storageCapacityMT": 125000,
+        "refrigeratedVehicles": 35
+      },
+      "social": {
+        "farmersImpacted": 45000,
+        "jobsCreated": 980,
+        "postHarvestLossReduction": 40
+      },
+      "environmental": {
+        "solarPowerMW": 12,
+        "foodWasteReductionMT": 50000,
+        "co2Reduction": 18000
+      }
+    },
+    "sdgAlignment": {
+      "sdg2": 94,
+      "sdg12": 88,
+      "sdg13": 75
+    }
+  },
+  {
+    "id": "proj-010",
+    "name": "Tamil Nadu Skill Development Centers",
+    "category": "Education",
+    "description": "Network of 40 skill development centers offering vocational training in IT, manufacturing, healthcare, and hospitality sectors with job placement support.",
+    "location": "Tamil Nadu (Multiple Cities)",
+    "totalFunding": 9500000000,
+    "currentFunding": 9500000000,
+    "targetDate": "2027-12-31",
+    "interestRate": 7.2,
+    "riskLevel": "low",
+    "duration": 30,
+    "status": "active",
+    "minInvestment": 5000,
+    "tokenPrice": 100,
+    "tokensIssued": 95000000,
+    "totalTokens": 95000000,
+    "investors": 11240,
+    "milestones": [
+      {
+        "id": "m1",
+        "name": "Phase 1: 20 Centers Setup",
+        "description": "Establish first 20 centers with equipment and curriculum",
+        "targetDate": "2026-12-31",
+        "completedDate": "2026-12-15",
+        "status": "completed",
+        "fundReleaseAmount": 4000000000,
+        "progressPercentage": 100,
+        "deliverables": [
+          "20 centers operational",
+          "5000 students enrolled",
+          "200 trainers recruited"
+        ]
+      },
+      {
+        "id": "m2",
+        "name": "Phase 2: Remaining Centers & Partnerships",
+        "description": "Complete 20 more centers and establish industry partnerships",
+        "targetDate": "2027-12-31",
+        "status": "in-progress",
+        "fundReleaseAmount": 5500000000,
+        "progressPercentage": 70,
+        "deliverables": [
+          "14 centers completed",
+          "50 industry partnerships signed",
+          "8500 total students enrolled"
+        ]
+      }
+    ],
+    "impact": {
+      "infrastructure": {
+        "centersBuilt": 40,
+        "trainingCapacity": 24000,
+        "labsEquipped": 160
+      },
+      "social": {
+        "studentsEnrolled": 18000,
+        "jobsPlaced": 12500,
+        "incomeIncrease": 85,
+        "womenBeneficiaries": 7200
+      },
+      "environmental": {
+        "greenSkillsTraining": 3500,
+        "sustainablePracticesCourses": 12
+      }
+    },
+    "sdgAlignment": {
+      "sdg4": 96,
+      "sdg8": 92,
+      "sdg10": 85
+    }
+  }
+]
