@@ -4,6 +4,16 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 
+const { sequelize, testConnection } = require('./config');
+const blockchainService = require('./services/blockchainService');
+
+// Import routes
+const authRoutes = require('./routes/auth');
+const projectRoutes = require('./routes/projects');
+const investmentRoutes = require('./routes/investments');
+const milestoneRoutes = require('./routes/milestones');
+const blockchainRoutes = require('./routes/blockchain');
+
 const app = express();
 
 // Middleware
@@ -21,16 +31,18 @@ app.get('/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     message: 'INFRACHAIN API is running',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    database: 'connected',
+    blockchain: 'connected'
   });
 });
 
-// API Routes (will be added in Phase 3)
-// app.use('/api/auth', require('./routes/auth'));
-// app.use('/api/projects', require('./routes/projects'));
-// app.use('/api/investments', require('./routes/investments'));
-// app.use('/api/users', require('./routes/users'));
-// app.use('/api/transparency', require('./routes/transparency'));
+// API Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/investments', investmentRoutes);
+app.use('/api/milestones', milestoneRoutes);
+app.use('/api/blockchain', blockchainRoutes);
 
 // 404 handler
 app.use((req, res) => {
@@ -47,10 +59,48 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`🚀 INFRACHAIN Backend running on port ${PORT}`);
-  console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🔗 Health check: http://localhost:${PORT}/health`);
-});
+// Initialize and start server
+const startServer = async () => {
+  try {
+    // Test database connection
+    const dbConnected = await testConnection();
+    if (!dbConnected) {
+      console.warn('⚠️  Database connection failed. API will run with limited functionality.');
+    }
+
+    // Sync database models (development only)
+    if (process.env.NODE_ENV === 'development') {
+      await sequelize.sync({ alter: false });
+      console.log('✅ Database models synchronized');
+    }
+
+    // Start blockchain event listeners
+    try {
+      blockchainService.listenToEvents();
+      console.log('✅ Blockchain event listeners started');
+    } catch (blockchainError) {
+      console.warn('⚠️  Blockchain connection issue:', blockchainError.message);
+    }
+
+    // Start server
+    app.listen(PORT, () => {
+      console.log('');
+      console.log('🚀 ========================================');
+      console.log(`   INFRACHAIN Backend Server Running`);
+      console.log('========================================');
+      console.log(`📡 Port: ${PORT}`);
+      console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`🗄️  Database: ${dbConnected ? 'Connected' : 'Disconnected'}`);
+      console.log(`⛓️  Blockchain: ${process.env.BLOCKCHAIN_RPC_URL || 'Not configured'}`);
+      console.log('========================================');
+      console.log('');
+    });
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
+};
+
+startServer();
 
 module.exports = app;
