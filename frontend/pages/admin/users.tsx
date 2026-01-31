@@ -109,6 +109,7 @@ export default function UsersManagementPage() {
             <select
               value={filters.role}
               onChange={(e) => setFilters({ ...filters, role: e.target.value })}
+              title="Filter by role"
               className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All Roles</option>
@@ -120,6 +121,7 @@ export default function UsersManagementPage() {
             <select
               value={filters.kycStatus}
               onChange={(e) => setFilters({ ...filters, kycStatus: e.target.value })}
+              title="Filter by KYC status"
               className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All KYC Status</option>
@@ -172,6 +174,7 @@ export default function UsersManagementPage() {
                         <select
                           value={user.role}
                           onChange={(e) => handleUpdateRole(user.id, e.target.value)}
+                          title="Change user role"
                           className="text-sm px-2 py-1 border border-gray-300 rounded capitalize"
                         >
                           <option value="investor">Investor</option>

@@ -105,6 +105,7 @@ export default function AdminProjectsPage() {
               <select
                 value={filters.status}
                 onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                title="Filter by status"
                 className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               >
                 <option value="all">All Status</option>
@@ -115,6 +116,7 @@ export default function AdminProjectsPage() {
               <select
                 value={filters.category}
                 onChange={(e) => setFilters({ ...filters, category: e.target.value })}
+                title="Filter by category"
                 className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               >
                 <option value="all">All Categories</option>
@@ -206,12 +208,12 @@ export default function AdminProjectsPage() {
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-2">
-                            <div className="flex-1 bg-gray-200 rounded-full h-2">
-                              <div
-                                className="bg-blue-600 h-2 rounded-full"
-                                style={{ width: `${Math.min(progress, 100)}%` }}
-                              />
-                            </div>
+                            <progress
+                              className="flex-1 h-2 rounded-full [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-bar]:bg-gray-200 [&::-webkit-progress-value]:rounded-full [&::-webkit-progress-value]:bg-blue-600 [&::-moz-progress-bar]:bg-blue-600"
+                              value={Math.min(progress, 100)}
+                              max={100}
+                              aria-label={`Project funding progress`}
+                            />
                             <span className="text-xs text-gray-600 whitespace-nowrap">{progress}%</span>
                           </div>
                         </td>

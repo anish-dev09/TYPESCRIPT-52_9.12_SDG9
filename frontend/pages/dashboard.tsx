@@ -19,6 +19,29 @@ export default function Dashboard() {
   const [monthlyInterest, setMonthlyInterest] = useState(0);
   const [performanceHistory, setPerformanceHistory] = useState<any[]>([]);
 
+  const generatePerformanceHistory = useCallback((investmentData: any[]) => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const history = [];
+
+    for (let i = 0; i < 6; i++) {
+      const monthIndex = (new Date().getMonth() - 5 + i + 12) % 12;
+      const monthProgress = i / 6; // 0 to 0.83
+
+      // Simulate portfolio growth with some volatility
+      const portfolioValue = totalInvested * (1 + monthProgress * 0.15 + Math.random() * 0.05);
+      // Benchmark grows steadily at lower rate
+      const benchmark = totalInvested * (1 + monthProgress * 0.08);
+
+      history.push({
+        month: months[monthIndex],
+        portfolio: Math.round(portfolioValue),
+        benchmark: Math.round(benchmark),
+      });
+    }
+
+    setPerformanceHistory(history);
+  }, [totalInvested]);
+
   const loadDashboardData = useCallback(async () => {
     try {
       setLoading(true);
@@ -47,31 +70,6 @@ export default function Dashboard() {
   useEffect(() => {
     loadDashboardData();
   }, [loadDashboardData]);
-
-  const generatePerformanceHistory = useCallback((investmentData: any[]) => {
-    // Generate 12 months of performance data
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const currentMonth = new Date().getMonth();
-    const history = [];
-
-    for (let i = 11; i >= 0; i--) {
-      const monthIndex = (currentMonth - i + 12) % 12;
-      const monthProgress = (11 - i) / 11; // Progress from 0 to 1
-
-      // Simulate portfolio growth with some volatility
-      const portfolioValue = totalInvested * (1 + monthProgress * 0.15 + Math.random() * 0.05);
-      // Benchmark grows steadily at lower rate
-      const benchmark = totalInvested * (1 + monthProgress * 0.08);
-
-      history.push({
-        month: months[monthIndex],
-        portfolio: Math.round(portfolioValue),
-        benchmark: Math.round(benchmark),
-      });
-    }
-
-    setPerformanceHistory(history);
-  }, [totalInvested]);
 
   // Transform investments to portfolio format for InvestorAnalytics
   const portfolioData = investments.map((inv: any) => ({

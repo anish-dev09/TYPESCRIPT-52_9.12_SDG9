@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import AdminLayout from '@/components/admin/AdminLayout';
 import apiService from '@/services/apiService';
@@ -13,13 +13,7 @@ export default function MilestonesPage() {
   const [selectedMilestone, setSelectedMilestone] = useState<any>(null);
   const [showEditModal, setShowEditModal] = useState(false);
 
-  useEffect(() => {
-    if (id) {
-      loadProjectAndMilestones();
-    }
-  }, [id]);
-
-  const loadProjectAndMilestones = async () => {
+  const loadProjectAndMilestones = useCallback(async () => {
     try {
       setLoading(true);
       const response = await apiService.get(`/projects/${id}`);
@@ -33,7 +27,13 @@ export default function MilestonesPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    if (id) {
+      loadProjectAndMilestones();
+    }
+  }, [id, loadProjectAndMilestones]);
 
   const handleUpdateStatus = async (milestoneId: number, newStatus: string) => {
     try {
@@ -187,12 +187,12 @@ export default function MilestonesPage() {
                   {milestones.filter(m => m.status === 'completed').length} / {milestones.length} Completed
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-3">
-                <div
-                  className="bg-blue-600 h-3 rounded-full transition-all"
-                  style={{ width: `${calculateProgress()}%` }}
-                />
-              </div>
+              <progress
+                className="w-full h-3 rounded-full [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-bar]:bg-gray-200 [&::-webkit-progress-value]:rounded-full [&::-webkit-progress-value]:bg-blue-600 [&::-moz-progress-bar]:bg-blue-600"
+                value={calculateProgress()}
+                max={100}
+                aria-label="Project milestone progress"
+              />
             </div>
           </div>
 
@@ -330,6 +330,7 @@ export default function MilestonesPage() {
                       onChange={(e) =>
                         setSelectedMilestone({ ...selectedMilestone, title: e.target.value })
                       }
+                      placeholder="Enter milestone title"
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                       required
                     />
@@ -345,6 +346,7 @@ export default function MilestonesPage() {
                         setSelectedMilestone({ ...selectedMilestone, description: e.target.value })
                       }
                       rows={3}
+                      placeholder="Describe the milestone"
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                       required
                     />
@@ -361,6 +363,7 @@ export default function MilestonesPage() {
                         onChange={(e) =>
                           setSelectedMilestone({ ...selectedMilestone, targetDate: e.target.value })
                         }
+                        title="Select target date"
                         className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                         required
                       />
@@ -378,6 +381,7 @@ export default function MilestonesPage() {
                         }
                         min="0"
                         step="0.01"
+                        placeholder="Enter funding amount"
                         className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                         required
                       />
@@ -393,6 +397,7 @@ export default function MilestonesPage() {
                       onChange={(e) =>
                         setSelectedMilestone({ ...selectedMilestone, status: e.target.value })
                       }
+                      title="Select milestone status"
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                       required
                     >

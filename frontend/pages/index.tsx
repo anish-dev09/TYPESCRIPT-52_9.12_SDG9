@@ -15,6 +15,57 @@ export default function Home() {
       </Head>
 
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+        {/* Navigation Header */}
+        <nav className="bg-white shadow-sm border-b">
+          <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+            <Link href="/" className="text-2xl font-bold text-blue-600">
+              INFRACHAIN
+            </Link>
+            
+            <div className="flex items-center gap-4">
+              <Link href="/projects" className="text-gray-600 hover:text-blue-600 font-medium">
+                Projects
+              </Link>
+              
+              {isAuthenticated ? (
+                <>
+                  <Link href="/dashboard" className="text-gray-600 hover:text-blue-600 font-medium">
+                    📊 Investor Dashboard
+                  </Link>
+                  
+                  {(user?.role === 'admin' || user?.role === 'project_manager') && (
+                    <>
+                      <Link href="/admin/projects" className="text-gray-600 hover:text-blue-600 font-medium">
+                        🏗️ Project Manager
+                      </Link>
+                      
+                      {user?.role === 'admin' && (
+                        <Link href="/admin/dashboard" className="text-gray-600 hover:text-blue-600 font-medium">
+                          ⚙️ Admin Panel
+                        </Link>
+                      )}
+                    </>
+                  )}
+                  
+                  <span className="text-gray-600">|</span>
+                  <span className="text-sm text-gray-600">
+                    {user?.name} ({user?.role})
+                  </span>
+                </>
+              ) : (
+                <>
+                  <Link href="/auth/login" className="text-gray-600 hover:text-blue-600 font-medium">
+                    Login
+                  </Link>
+                  <Link href="/auth/register" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
+                    Register
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+        </nav>
+
         <div className="container mx-auto px-4 py-16">
           <div className="text-center mb-16">
             <h1 className="text-6xl font-bold text-gray-900 mb-4">

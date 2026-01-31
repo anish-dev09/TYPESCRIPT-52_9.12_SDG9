@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import AdminLayout from '@/components/admin/AdminLayout';
 import apiService from '@/services/apiService';
@@ -21,13 +21,7 @@ export default function EditProjectPage() {
     milestones: [] as any[],
   });
 
-  useEffect(() => {
-    if (id) {
-      loadProject();
-    }
-  }, [id]);
-
-  const loadProject = async () => {
+  const loadProject = useCallback(async () => {
     try {
       setLoading(true);
       const response = await apiService.get(`/projects/${id}`);
@@ -50,7 +44,13 @@ export default function EditProjectPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    if (id) {
+      loadProject();
+    }
+  }, [id, loadProject]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -182,6 +182,7 @@ export default function EditProjectPage() {
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
+                    placeholder="Enter project name"
                     className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                     required
                   />
@@ -196,6 +197,7 @@ export default function EditProjectPage() {
                     value={formData.description}
                     onChange={handleInputChange}
                     rows={4}
+                    placeholder="Describe the project in detail"
                     className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                     required
                   />
@@ -210,6 +212,7 @@ export default function EditProjectPage() {
                       name="category"
                       value={formData.category}
                       onChange={handleInputChange}
+                      title="Select project category"
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                       required
                     >
@@ -232,6 +235,7 @@ export default function EditProjectPage() {
                       name="status"
                       value={formData.status}
                       onChange={handleInputChange}
+                      title="Select project status"
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                       required
                     >
@@ -271,6 +275,7 @@ export default function EditProjectPage() {
                       onChange={handleInputChange}
                       min="0"
                       step="0.01"
+                      placeholder="Enter funding goal amount"
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                       required
                     />
@@ -360,6 +365,7 @@ export default function EditProjectPage() {
                             type="text"
                             value={milestone.title}
                             onChange={(e) => updateMilestone(index, 'title', e.target.value)}
+                            placeholder="Enter milestone title"
                             className="w-full px-3 py-2 border rounded-lg"
                             required
                           />
@@ -373,6 +379,7 @@ export default function EditProjectPage() {
                             value={milestone.description}
                             onChange={(e) => updateMilestone(index, 'description', e.target.value)}
                             rows={2}
+                            placeholder="Describe the milestone"
                             className="w-full px-3 py-2 border rounded-lg"
                             required
                           />
@@ -387,6 +394,7 @@ export default function EditProjectPage() {
                               type="date"
                               value={milestone.targetDate}
                               onChange={(e) => updateMilestone(index, 'targetDate', e.target.value)}
+                              title="Select target date"
                               className="w-full px-3 py-2 border rounded-lg"
                               required
                             />
@@ -402,6 +410,7 @@ export default function EditProjectPage() {
                               onChange={(e) => updateMilestone(index, 'fundingRequired', e.target.value)}
                               min="0"
                               step="0.01"
+                              placeholder="Enter amount"
                               className="w-full px-3 py-2 border rounded-lg"
                               required
                             />
@@ -414,6 +423,7 @@ export default function EditProjectPage() {
                             <select
                               value={milestone.status}
                               onChange={(e) => updateMilestone(index, 'status', e.target.value)}
+                              title="Select milestone status"
                               className="w-full px-3 py-2 border rounded-lg"
                               required
                             >

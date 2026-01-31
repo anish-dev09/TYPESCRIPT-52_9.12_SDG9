@@ -143,6 +143,7 @@ export default function CreateProjectPage() {
                 value={formData.name}
                 onChange={handleInputChange}
                 required
+                placeholder="Enter project name"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -157,6 +158,7 @@ export default function CreateProjectPage() {
                 onChange={handleInputChange}
                 required
                 rows={4}
+                placeholder="Enter project description"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -171,6 +173,7 @@ export default function CreateProjectPage() {
                 value={formData.location}
                 onChange={handleInputChange}
                 required
+                placeholder="Enter project location"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -183,6 +186,7 @@ export default function CreateProjectPage() {
                 name="category"
                 value={formData.category}
                 onChange={handleInputChange}
+                title="Select project category"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="transportation">Transportation</option>
@@ -216,6 +220,7 @@ export default function CreateProjectPage() {
                 name="status"
                 value={formData.status}
                 onChange={handleInputChange}
+                title="Select project status"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="active">Active</option>
@@ -242,6 +247,7 @@ export default function CreateProjectPage() {
                 required
                 min="0"
                 step="0.01"
+                placeholder="Enter funding goal"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -257,6 +263,7 @@ export default function CreateProjectPage() {
                 onChange={handleInputChange}
                 min="0"
                 step="0.01"
+                placeholder="Enter token price"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -273,6 +280,7 @@ export default function CreateProjectPage() {
                 min="0"
                 max="100"
                 step="0.1"
+                placeholder="Enter interest rate"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -287,6 +295,7 @@ export default function CreateProjectPage() {
                 value={formData.duration}
                 onChange={handleInputChange}
                 min="1"
+                placeholder="Enter duration in months"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -299,6 +308,7 @@ export default function CreateProjectPage() {
                 name="risk"
                 value={formData.risk}
                 onChange={handleInputChange}
+                title="Select risk level"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="low">Low</option>
@@ -323,6 +333,7 @@ export default function CreateProjectPage() {
                 onChange={(e) => handleSDGChange('primaryGoal', parseInt(e.target.value))}
                 min="1"
                 max="17"
+                placeholder="SDG goal number (1-17)"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -337,6 +348,7 @@ export default function CreateProjectPage() {
                 onChange={(e) => handleSDGChange('score', parseInt(e.target.value))}
                 min="0"
                 max="100"
+                placeholder="Enter SDG score (0-100)"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -350,6 +362,7 @@ export default function CreateProjectPage() {
                 value={formData.sdgAlignment.impactMetrics.livesImpacted}
                 onChange={(e) => handleImpactMetricChange('livesImpacted', e.target.value)}
                 min="0"
+                placeholder="Number of lives impacted"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -363,6 +376,7 @@ export default function CreateProjectPage() {
                 value={formData.sdgAlignment.impactMetrics.co2Reduction}
                 onChange={(e) => handleImpactMetricChange('co2Reduction', e.target.value)}
                 min="0"
+                placeholder="CO2 reduction in tons"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -376,6 +390,7 @@ export default function CreateProjectPage() {
                 value={formData.sdgAlignment.impactMetrics.jobsCreated}
                 onChange={(e) => handleImpactMetricChange('jobsCreated', e.target.value)}
                 min="0"
+                placeholder="Number of jobs created"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
