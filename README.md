@@ -1,4 +1,4 @@
-# INFRACHAIN-SDG9: Complete Hackathon MVP Package
+# INFRACHAIN-SDG9-CIH3.0: Complete Hackathon MVP Package
 ## Documentation Index & Implementation Guide
 
 ---
