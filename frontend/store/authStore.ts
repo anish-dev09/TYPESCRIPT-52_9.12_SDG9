@@ -24,7 +24,7 @@ interface AuthState {
   chainId: number | null;
   isConnecting: boolean;
   isAuthenticated: boolean;
-  
+
   // Actions
   connectWallet: () => Promise<void>;
   disconnectWallet: () => void;
@@ -49,7 +49,7 @@ export const useAuthStore = create<AuthState>()(
       // Connect wallet action
       connectWallet: async () => {
         set({ isConnecting: true });
-        
+
         try {
           const { address, chainId } = await web3Service.connectWallet();
           set({
@@ -64,14 +64,14 @@ export const useAuthStore = create<AuthState>()(
               get().disconnectWallet();
             } else {
               set({ walletAddress: accounts[0] });
-              toast.info('Account changed');
+              toast('Account changed', { icon: 'ℹ️' });
             }
           });
 
           web3Service.onChainChanged((chainIdHex) => {
             const newChainId = parseInt(chainIdHex, 16);
             set({ chainId: newChainId });
-            toast.info('Network changed');
+            toast('Network changed', { icon: 'ℹ️' });
             // Reload page on network change
             window.location.reload();
           });
@@ -100,7 +100,7 @@ export const useAuthStore = create<AuthState>()(
       // Login action (authenticate with backend)
       login: async (email?: string, name?: string) => {
         const { walletAddress } = get();
-        
+
         if (!walletAddress) {
           throw new Error('Please connect your wallet first');
         }
@@ -108,20 +108,20 @@ export const useAuthStore = create<AuthState>()(
         try {
           // Create authentication message
           const message = `Welcome to INFRACHAIN!\n\nSign this message to authenticate your wallet.\n\nWallet: ${walletAddress}\nTimestamp: ${Date.now()}`;
-          
+
           // Sign message with MetaMask
           const signature = await web3Service.signMessage(message);
 
           // Try to login first
           try {
             const loginResponse = await apiService.login(walletAddress, signature);
-            
+
             apiService.setToken(loginResponse.token);
             set({
               user: loginResponse.user,
               isAuthenticated: true,
             });
-            
+
             toast.success(`Welcome back, ${loginResponse.user.name}!`);
           } catch (loginError: any) {
             // If login fails (user doesn't exist), register new user
